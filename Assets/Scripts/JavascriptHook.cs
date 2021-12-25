@@ -21,12 +21,13 @@ public class JavascriptHook : MonoBehaviour
         // path = Application.dataPath + "/Sprites/kanepe.jpg";
         path = "http://127.0.0.1:8887/kanepe.jpg";
 #endif
-        userIdText.text = path;
-        StartCoroutine(DownloadImage(path));
+        // StartCoroutine(DownloadImage(path));
     }
+
     public void SetUser(string userId)
     {
         GameManager.Instance.userId = userId;
+        userIdText.text = userId;
     }
 
     IEnumerator DownloadImage(string MediaUrl)

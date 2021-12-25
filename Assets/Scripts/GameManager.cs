@@ -14,7 +14,8 @@ public enum States
     Nothing,
     Blueprint,
     ItemSelected,
-    ItemMoving
+    ItemMoving,
+    ItemRotating
 }
 public class GameManager : GenericSingleton<GameManager>
 {

@@ -26,6 +26,10 @@ public class PlayerController : MonoBehaviour
             {
                 _itemManager.PlaceItem();
             }
+            else if (_gameManager.currentState == States.ItemRotating)
+            {
+                _itemManager.PlaceItem();
+            }
             else
             {
                 _itemManager.SelectItem();

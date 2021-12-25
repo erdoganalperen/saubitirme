@@ -19,14 +19,20 @@ public class ItemController : MonoBehaviour
         _outline = GetComponent<Outline>();
         _inputManager = InputManager.Instance;
         _itemManager = ItemManager.Instance;
+        _outline.enabled = false;
+        tag = "Item";
+        gameObject.layer = LayerMask.NameToLayer("Blueprint");
     }
     private void Update()
     {
         RaycastCheck();
     }
-    void Rotate()
+    public void Rotate()
     {
-
+        GameManager.Instance.currentState = States.ItemRotating;
+        _itemManager.isItemRotating = true;
+        _inputManager.lockFlow = true;
+        CloseItemUI();
     }
     public void Move()
     {
@@ -38,6 +44,8 @@ public class ItemController : MonoBehaviour
     {
         GameManager.Instance.currentState = States.ItemSelected;
         _itemManager.isItemMoving = false;
+        _itemManager.isItemRotating = false;
+        _inputManager.lockFlow = false;
         OpenItemUI();
     }
     public void Destroy()

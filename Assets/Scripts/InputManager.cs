@@ -4,6 +4,7 @@ public class InputManager : GenericSingleton<InputManager>
 {
     [Header("Read Values")]
     [SerializeField] private LayerMask BlueprintLayerMask; //<-LAYERS BE IGNORED
+    [SerializeField] private LayerMask MoveItemLayerMask; //<-LAYERS BE IGNORED
     [ReadOnlyInInspector] [SerializeField] private bool isKeyPressed;
     [ReadOnlyInInspector] [SerializeField] private bool _isMouseOverUI;
     [ReadOnlyInInspector] [SerializeField] private bool _leftClick;
@@ -13,8 +14,10 @@ public class InputManager : GenericSingleton<InputManager>
     [ReadOnlyInInspector] [SerializeField] private float _mouseWheel;
     [ReadOnlyInInspector] [SerializeField] private Vector2 _mousePositionDelta;
     [ReadOnlyInInspector] [SerializeField] private Vector3 _mouseRayHitPosition;
+    [ReadOnlyInInspector] [SerializeField] private Vector3 _mouseRayHitPositionMoveItem;
     // Properties
     public Vector3 CameraRaycastHitPosition => _mouseRayHitPosition;
+    public Vector3 CameraRaycastHitPositionMove => _mouseRayHitPositionMoveItem;
     public bool IsMouseOverUI => _isMouseOverUI;
     public bool LeftClick => _leftClick;
     public bool RightClick => _rightClick;
@@ -91,6 +94,7 @@ public class InputManager : GenericSingleton<InputManager>
     public GameObject hitItem;
     void RaycastHit()
     {
+        //_mouseRayHitPositionMoveItem
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, BlueprintLayerMask))
@@ -103,6 +107,13 @@ public class InputManager : GenericSingleton<InputManager>
             if (hit.collider.CompareTag("Item"))
             {
                 hitItem = hit.collider.gameObject;
+            }
+        }
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, MoveItemLayerMask))
+        {
+            if (hit.collider.CompareTag("Ground"))
+            {
+                _mouseRayHitPositionMoveItem = hit.point;
             }
         }
     }
